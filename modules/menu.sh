@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source /home/srijit/Shellmind/modules/fix_errors.sh
+
 echo "==============================="
 echo "          SHELLMIND            "
 echo "==============================="
@@ -12,8 +14,8 @@ show_menu(){
 
 	select choose_opt in "${options[@]}" ; do
 		case $choose_opt in 
-			"Analyze error")
-				read -p "Enter your error: " error
+			"Analyze error") 
+				analyze_error
 				;;
 			"Generate command")
 				read -p "Enter your prompt to generate a command: " cmd 
@@ -27,5 +29,5 @@ show_menu(){
 				echo "Invalid option, please try again"
 				;;
 		esac
-	done		      
-}
+	done
+} 
