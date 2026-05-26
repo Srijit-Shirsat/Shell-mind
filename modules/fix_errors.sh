@@ -1,14 +1,23 @@
 #!/bin/bash
 
 analyze_error(){
-	read -p "Enter the error you got : " err 
+	clear
+	echo "========Analyze error========"
 
-	if [[ -z $err ]]; then 
-		echo "You entered nothing.Returning to the menu"
+	echo ""
+
+	read -p "Enter the error: " err
+
+	if [[ -z $err ]]; then
+		echo "You entered nothing. Returning back to menu"
 		return
 	else
-		echo "Analyzing error and fetching answer. Please wait"
+		echo "Analyzing error. Please wait"
+
+		read -p "Press ENTER to continue...."
 	fi
+
+
 }
 
 
