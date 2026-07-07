@@ -12,7 +12,21 @@ ask_ai(){
 		echo "API KEY VALIDATED"
 	fi
 
-	request_body="JSON response will be stored here"
+	request_body=$(cat <<EOF
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "$prompt"
+        }
+      ]
+    }
+  ]
+}
+EOF
+)
+
 
 	echo "$request_body"
 }

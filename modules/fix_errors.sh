@@ -16,10 +16,10 @@ analyze_error(){
 	else
 		echo "Analyzing error...."
 		ask_ai "$err"
-		echo "You entered the $err"	
 		read -p "Press ENTER to continue..."
 	fi
 }
+
 
 
 
