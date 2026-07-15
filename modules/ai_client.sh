@@ -32,7 +32,7 @@ EOF
    		   -d "$request_body" 2> /dev/null
 		  )
    	
-		  answer=$(echo "$response" | jq -r '.candidates[0].content.parts[0].text')
+	answer=$(echo "$response" | jq -r '.candidates[0].content.parts[0].text')
 
 
 	echo "$answer"
