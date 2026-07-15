@@ -26,9 +26,14 @@ ask_ai(){
 }
 EOF
 )
+	response=$(curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=$GEMINI_API_KEY" \
+    		   -H 'Content-Type: application/json' \
+   		   -X POST \
+   		   -d "$request_body" 2> /dev/null
+		  )
 
 
-	echo "$request_body"
+	echo "$response"
 }
 
 
