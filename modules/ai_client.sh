@@ -26,14 +26,16 @@ ask_ai(){
 }
 EOF
 )
-	response=$(curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=$GEMINI_API_KEY" \
+	response=$(curl "$BASE_URL/$MODEL_NAME:$ENDPOINT?key=$GEMINI_API_KEY" \
     		   -H 'Content-Type: application/json' \
    		   -X POST \
    		   -d "$request_body" 2> /dev/null
 		  )
+   	
+		  answer=$(echo "$response" | jq -r '.candidates[0].content.parts[0].text')
 
 
-	echo "$response"
+	echo "$answer"
 }
 
 
