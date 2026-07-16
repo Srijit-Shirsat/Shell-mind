@@ -7,24 +7,20 @@ ask_ai(){
 	if [[ -z "$GEMINI_API_KEY" ]]; then
 		echo "API KEY not found"
 		return
-	else
-		echo "API KEY VALIDATED"
 	fi
 
-	request_body=$(cat <<EOF
+	request_body=$(jq -n --arg prompt "$prompt" '
 {
-  "contents": [
+  contents: [
     {
-      "parts": [
+      parts: [
         {
-          "text": "$prompt"
+          text: $prompt
         }
       ]
     }
   ]
-}
-EOF
-)
+}')
 	response=$(curl "$BASE_URL/$MODEL_NAME:$ENDPOINT?key=$GEMINI_API_KEY" \
     	-H 'Content-Type: application/json' \
    	-X POST \
@@ -38,7 +34,7 @@ EOF
 	
 	if [[ $? -eq 0 ]] then
 		answer=$(echo "$response" | jq -r '.candidates[0].content.parts[0].text')
-		printf "%s\n" "$answer"
+		echo "$answer" 
 	else
 		echo "Unable to connect to Gemini.
 		      Please check your internet connection."
