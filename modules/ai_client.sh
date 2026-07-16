@@ -27,15 +27,17 @@ ask_ai(){
 EOF
 )
 	response=$(curl "$BASE_URL/$MODEL_NAME:$ENDPOINT?key=$GEMINI_API_KEY" \
-    		   -H 'Content-Type: application/json' \
-   		   -X POST \
-   		   -d "$request_body" 2> /dev/null
-		  )
-   	
-	answer=$(echo "$response" | jq -r '.candidates[0].content.parts[0].text')
-
-
-	echo "$answer"
+    	-H 'Content-Type: application/json' \
+   	-X POST \
+	-d "$request_body" 2> /dev/null )
+	
+	if [[ $? -eq 0 ]] then
+		answer=$(echo "$response" | jq -r '.candidates[0].content.parts[0].text')
+		echo "$answer"
+	else
+		echo "Unable to connect to Gemini.
+		      Please check your internet connection."
+	fi
 }
 
 
