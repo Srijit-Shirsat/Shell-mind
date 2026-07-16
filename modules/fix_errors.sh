@@ -15,7 +15,8 @@ analyze_error(){
 		return
 	else
 		echo "Analyzing error...."
-		ask_ai "$err"
+		answer=$(ask_ai "$err")
+		echo $answer
 		echo ""
 		read -p "Press ENTER to continue..."
 	fi
