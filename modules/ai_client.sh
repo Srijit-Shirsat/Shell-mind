@@ -2,7 +2,6 @@
 
 ask_ai(){
 	prompt="$1"
-	
 	source /home/srijit/Shellmind/config/config.sh
 	
 	if [[ -z "$GEMINI_API_KEY" ]]; then
