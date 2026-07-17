@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source /home/srijit/Shellmind/modules/fix_errors.sh
+source /home/srijit/Shellmind/modules/generate_command.sh
 
 echo "==============================="
 echo "          SHELLMIND            "
@@ -18,7 +19,7 @@ show_menu(){
 				analyze_error
 				;;
 			"Generate command")
-				read -p "Enter your prompt to generate a command: " cmd 
+				generate_command 
 				;;
 			"Exit")
 				echo "Exiting....."
