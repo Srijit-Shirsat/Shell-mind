@@ -35,4 +35,30 @@ $1
 EOF
 }
 
+get_command_prompt(){
+	cat <<EOF
+You are an expert Linux assistant.
 
+The user will describe what they want to do in plain English.
+
+Return ONLY valid JSON in this format:
+
+{
+  "command": "",
+  "explanation": "",
+  "example": "",
+  "notes": ""
+}
+
+Rules:
+- Return ONLY valid JSON.
+- Do not use Markdown.
+- "command" should contain only the Linux command.
+- "explanation" should briefly explain what the command does.
+- "example" should show a practical example.
+- "notes" should contain important warnings or best practices. If none, return an empty string.
+
+User request:
+$1
+EOF
+}

@@ -39,6 +39,7 @@ ask_ai(){
 		echo "Unable to connect to Gemini.
 		      Please check your internet connection."
 	fi
+
 }
 
 

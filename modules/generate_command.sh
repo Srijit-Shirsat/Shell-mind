@@ -1,5 +1,8 @@
 #!/bin/bash
 
+source /home/srijit/Shellmind/modules/prompts.sh
+source /home/srijit/Shellmind/modules/ai_client.sh
+
 generate_command(){
         clear	
 	echo "============GENERATE COMMAND============"
@@ -11,7 +14,9 @@ generate_command(){
 	      echo "You entered nothing"
 	      return
         else
-	      echo "you entered $task"
+	      prompt=$(get_command_prompt "$task")
+	      answer=$(ask_ai "$prompt")
+	      echo $answer | jq .
 	fi
 }
 
