@@ -37,26 +37,29 @@ EOF
 
 get_command_prompt(){
 	cat <<EOF
-You are an expert Linux assistant.
-
-The user will describe what they want to do in plain English.
-
-Return ONLY valid JSON in this format:
+Return ONLY valid JSON in this exact format:
 
 {
-  "command": [],
-  "explanation": "",
-  "example": "",
-  "notes": ""
+  "commands": [
+    {
+      "title": "Short descriptive title",
+      "command": "linux command"
+    }
+  ],
+  "explanation": "Explain what these commands do.",
+  "example": "One practical example.",
+  "notes": "Warnings, tips, or additional information."
 }
 
 Rules:
-- Return ONLY valid JSON.
-- Do not use Markdown.
-- "command" should contain only the Linux command.
-- "explanation" should briefly explain what the command does.
-- "example" should show a practical example.
-- "notes" should contain important warnings or best practices. If none, return an empty string.
+- Always return the "commands" field as an array.
+- If only one command is needed, return one object inside the array.
+- If multiple valid approaches exist, return multiple command objects.
+- Each command object must contain:
+  - title
+  - command
+- Commands must be directly executable in Linux.
+- Do not return Markdown or code fences.
 
 User request:
 $1
