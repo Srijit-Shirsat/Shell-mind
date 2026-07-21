@@ -44,7 +44,7 @@ The user will describe what they want to do in plain English.
 Return ONLY valid JSON in this format:
 
 {
-  "command": "",
+  "command": [],
   "explanation": "",
   "example": "",
   "notes": ""

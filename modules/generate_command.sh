@@ -16,7 +16,21 @@ generate_command(){
         else
 	      prompt=$(get_command_prompt "$task")
 	      answer=$(ask_ai "$prompt")
-	      echo $answer | jq .
+	      cmd=$(echo "$answer" | jq -r '.command[]')
+	      explanation=$(echo "$answer" | jq -r '.explanation')
+	      example=$(echo "$answer" | jq -r '.example')
+	      notes=$(echo "$answer" | jq -r '.notes')
+
+	      echo "==================================================================="
+
+	      printf "\nCommand:\n%s\n" "$cmd"
+	      printf "\nExplanation:\n%s\n" "$explanation"
+	      printf "\nExample:\n%s\n" "$example"
+	      printf "\nNotes:\n%s\n" "$notes"
+
+	      echo "==================================================================="
+              
+              echo ""	      
 	fi
 }
 
