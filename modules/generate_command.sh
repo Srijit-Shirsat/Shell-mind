@@ -33,14 +33,31 @@ generate_command(){
 	      echo "==================================================================="
               echo ""
 
+	      echo "======================================================================================================================================="
+
               interactive_menu=("Execute command" "Generate again" "Exit")
 
-              PS3="Enter your preference [1-3]:"
+              PS3="Enter your preference [1-3]: "
 
               select choose_opt in "${interactive_menu[@]}"; do
                       case $choose_opt in
 			      "Execute command")
-				      echo "Executing feature coming soon....."
+				      read -p "Do you want to execute this command? (y/N): " user_choice
+				      if [[ -z "$user_choice" ]]; then
+					      echo "User entered nothing"
+				      elif [[ $user_choice != "y" && $user_choice != "N" ]]; then
+					      echo "INVALID!! Input must be (y/N)"
+				      elif [[ $user_choice == "y" ]]; then
+                                              $cmd
+                                              if [[ $? -eq 0 ]]; then
+                                                      echo "$cmd executed successfully"
+                                              else
+                                                      echo "Failed to execute $cmd"
+                                              fi
+				      else
+					   echo "Returning to menu"
+					   return
+				      fi
 				      ;;
 			      "Generate again")
 				      echo "Generate command"
