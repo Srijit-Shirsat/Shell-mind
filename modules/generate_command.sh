@@ -5,7 +5,7 @@ source /home/srijit/Shellmind/modules/ai_client.sh
 
 generate_command(){
         clear	
-	echo "============GENERATE COMMAND============"
+	echo "===================GENERATE COMMAND======================="
 	echo ""
 
 	read -p "What you want to generate: " task
@@ -22,17 +22,38 @@ generate_command(){
 	      notes=$(echo "$answer" | jq -r '.notes')
 
 	      echo "==================================================================="
+	      echo ""
 
 	      printf "\nCommand:\n%s\n" "$cmd"
 	      printf "\nExplanation:\n%s\n" "$explanation"
 	      printf "\nExample:\n%s\n" "$example"
 	      printf "\nNotes:\n%s\n" "$notes"
 
+	      echo ""
 	      echo "==================================================================="
-              
-              echo ""	      
+              echo ""
+
+              interactive_menu=("Execute command" "Generate again" "Exit")
+
+              PS3="Enter your preference [1-3]:"
+
+              select choose_opt in "${interactive_menu[@]}"; do
+                      case $choose_opt in
+			      "Execute command")
+				      echo "Executing feature coming soon....."
+				      ;;
+			      "Generate again")
+				      echo "Generate command"
+				      ;;
+			      "Exit")
+				      echo "Exiting....."
+				      echo "Exited!!"
+				      exit 
+				      ;;
+			      *)
+				      echo "Invalid option, please try again"
+				      ;;
+		      esac
+	      done	      
 	fi
 }
-
-
-              	      
