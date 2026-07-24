@@ -2,6 +2,7 @@
 
 source /home/srijit/Shellmind/modules/prompts.sh
 source /home/srijit/Shellmind/modules/ai_client.sh
+source /home/srijit/Shellmind/modules/fix_errors.sh
 
 generate_command(){
         clear	
@@ -44,7 +45,7 @@ generate_command(){
 	      example=$(echo "$answer" | jq -r '.example')
 	      notes=$(echo "$answer" | jq -r '.notes')
 
-	      echo "==================================================================="
+	      echo "======================================================================================================================================="
 	      echo ""
 
 	      echo "Available Commands:"
@@ -58,7 +59,7 @@ generate_command(){
 	      printf "\nNotes:\n%s\n" "$notes"
 
 	      echo ""
-	      echo "==================================================================="
+	      echo "======================================================================================================================================="
               echo ""
 
 	      echo "======================================================================================================================================="
@@ -89,12 +90,22 @@ generate_command(){
 				      if [[ -z "$confirm" ]]; then
 					      echo "You entered nothing"
 				      elif [[ "$confirm" =~ ^[Yy]$ ]]; then
-					      bash -c "$selected_command"
-					      if [[ $? -eq 0 ]]; then
+					      command_output=$(bash -c "$selected_command" 2>&1)
+					      exit_status=$?
+					      if [[ "$exit_status" -eq 0 ]]; then
 						      echo "Command executed successfully"
 						      return
 					      else
 						      echo "Command failed to execute"
+						      read -p "Do you want Shellmind to analyze this error (y/N)" error_func
+						      if [[ -z "$error_func" ]]; then
+							      echo "You entered nothing. Returning back to menu"
+							      return
+						      elif [[ "$error_func" =~ ^[Yy]$ ]]; then
+							      analyze_error $command_output
+						      else
+							      echo "Returning back to main menu"
+						      fi
 					      fi
 				      else
 					      echo "Returning to the menu"

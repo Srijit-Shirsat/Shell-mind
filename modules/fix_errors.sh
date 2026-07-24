@@ -9,7 +9,11 @@ analyze_error(){
 
 	echo ""
 
-	read -p "Enter the error: " err
+	local err=$1
+
+	if [[ -z "$err" ]]; then
+		read -p "Enter the error: " err
+	fi
 	
 	if [[ -z $err ]]; then
 		echo "You entered nothing. Returning back to menu"
