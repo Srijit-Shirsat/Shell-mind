@@ -96,6 +96,24 @@ generate_command(){
                                               bash -c "$selected_command" >"$stdout_file" 2>"$stderr_file"
                                               exit_status=$?
 
+					      {
+						      echo "==============================="
+						      echo "Time: $(date)"
+						      echo "User Query: $task"
+						      echo "Executed Command:"
+						      echo "$selected_command"
+						      echo "Exit Status: $exit_status"
+						      
+						      if [[ $exit_status -eq 0 ]]; then
+							      echo "Output:"
+							      echo "$command_output"
+						      else
+							      echo "Error:"
+							      echo "$error_output"
+						      fi
+						      echo
+					      } >> /home/srijit/Shellmind/logs/history.log
+
 					      command_output=$(<"$stdout_file")
 				              error_output=$(<"$stderr_file")
                                               rm -f "$stdout_file" "$stderr_file"
