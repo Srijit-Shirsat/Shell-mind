@@ -37,6 +37,41 @@ analyze_error(){
 		printf "\nExplanation:\n%s\n" "$explanation"
 		printf "\nPrevention:\n%s\n" "$prevention"
 		echo ""
+
+		read -p "Do you want to save this report? (y/N): " save_report
+		if [[ "$save_report" =~ ^[Yy]$ ]]; then
+			timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
+			report_file="/home/srijit/Shellmind/reports/report_${timestamp}.txt"
+			{
+				echo "================== ShellMind Error Report =================="
+				echo "Generated On : $(date +"%A, %d %B %Y | %I:%M:%S %p %Z")"
+				echo ""
+				echo "Original Error:"
+				echo "$err"
+				echo ""
+				echo "Cause:"
+				echo "$cause"
+				echo
+				echo "Explanation:"
+				echo "$explanation"
+				echo ""
+				echo "Solution:"
+				echo "$solution"
+				echo
+				echo "Commands:"
+				echo "$commands"
+				echo
+				echo "If Issue Persists:"
+				echo "$if_not_fixed"
+				echo
+				echo "Prevention:"
+				echo "$prevention"
+			} > "$report_file"
+		echo
+		echo "✓ Report saved successfully."
+		echo "$report_file"
+		fi
+		
 		read -p "Press ENTER to continue..."
 	fi
 }
