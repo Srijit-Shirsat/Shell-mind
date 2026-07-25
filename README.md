@@ -18,14 +18,57 @@ The project also serves as a practical implementation of Bash scripting, Linux a
 
 ## Features
 
-- Interactive terminal menu
-- Analyze Linux and shell errors
-- Generate Linux commands from natural language
-- AI-powered troubleshooting
-- Modular Bash scripting architecture
+- AI-powered Linux error analysis
+- Generate Linux commands using natural language
+- Execute generated commands directly from the terminal
+- Adaptive execution for single or multiple generated commands
+- Automatic AI error analysis after command execution failure
+- Dangerous command detection before execution
+- Persistent command execution history
+- Export AI analysis reports
+- Modular Bash architecture
 - Configuration management
-- API integration
-- Extensible project structure
+- Gemini API integration
+- JSON parsing using `jq`
+- Interactive terminal interface
+
+---
+
+# Demo Workflow
+
+```text
+                User Input
+                     │
+                     ▼
+        Natural Language Request
+                     │
+                     ▼
+              Gemini API
+                     │
+                     ▼
+          AI Generated Command(s)
+                     │
+                     ▼
+      Single Command? ─────── No ──────────► User Selects Command
+             │
+            Yes
+             │
+             ▼
+      Execute Command
+             │
+      ┌──────┴──────┐
+      │             │
+   Success       Failure
+      │             │
+      ▼             ▼
+ Return to      Analyze Error?
+ Main Menu          │
+                    ▼
+              AI Error Analysis
+                    │
+                    ▼
+           Export Report (Optional)
+```
 
 ---
 
@@ -35,9 +78,10 @@ The project also serves as a practical implementation of Bash scripting, Linux a
 |------------|---------|
 | Bash | Core application |
 | Linux | Development environment |
-| curl | HTTP requests |
+| Gemini API | AI responses |
+| curl | REST API communication |
 | jq | JSON parsing |
-| Gemini API | AI responses *(In Progress)* |
+| Git | Version control |
 
 ---
 
@@ -46,63 +90,179 @@ The project also serves as a practical implementation of Bash scripting, Linux a
 ```text
 ShellMind/
 │
-├── config/          # Configuration files
-├── modules/         # Application modules
-├── logs/            # Runtime logs
-├── reports/         # Generated reports
-├── utils/           # Helper scripts
+├── config/
 │
-├── shellmind.sh     # Entry point
+├── logs/
+│   └── history.log
+│
+├── reports/
+│
+├── modules/
+│   ├── ai_client.sh
+│   ├── fix_errors.sh
+│   ├── generate_command.sh
+│   ├── prompts.sh
+│   └── safety.sh
+│
+├── utils/
+│
+├── shellmind.sh
+│
 └── README.md
 ```
 
 ---
 
-## Project Goals
+# Implemented Features
 
-The primary objectives of ShellMind are:
+## Analyze Error
 
-- Build a practical Linux productivity tool
-- Learn advanced Bash scripting
-- Integrate AI into terminal workflows
-- Practice REST API integration
-- Work with JSON requests and responses
-- Follow modular software architecture
-- Improve Linux troubleshooting experience
+- Accepts Linux or shell errors
+- Sends errors to Gemini AI
+- Provides:
+  - Root Cause
+  - Detailed Explanation
+  - Suggested Solution
+  - Linux Commands
+  - Prevention Tips
+- Optional report export
 
 ---
 
-## Current Progress
+## Generate Command
+
+Users describe a task in natural language.
+
+Example:
+
+```
+Create a directory named projects
+```
+
+ShellMind generates:
+
+```
+mkdir projects
+```
+
+along with:
+
+- Explanation
+- Example usage
+- Additional notes
+
+---
+
+## Adaptive Command Execution
+
+ShellMind automatically handles both situations:
+
+### Single command
+
+```
+mkdir projects
+```
+
+Immediately available for execution.
+
+### Multiple commands
+
+```
+1. tee
+2. >
+```
+
+The user selects which command to execute.
+
+---
+
+## Automatic Error Analysis
+
+If an executed command fails:
+
+```
+cp abc.txt backup/
+```
+
+ShellMind automatically asks:
+
+```
+Do you want ShellMind to analyze this error? (Y/n)
+```
+
+No manual copy-pasting is required.
+
+## Command History
+
+Every executed command is logged automatically.
+
+Stored information includes:
+
+- Timestamp
+- User request
+- Generated command
+- Exit status
+- Command output or error
+
+---
+
+## AI Report Export
+
+Users can save AI-generated troubleshooting reports.
+
+Example:
+
+```
+reports/
+└── report_2026-07-25_22-15-30.txt
+```
+
+Each report contains:
+
+- Original Error
+- Cause
+- Explanation
+- Solution
+- Suggested Commands
+- Prevention Tips
+
+---
+
+# Learning Objectives
+
+ShellMind was built to gain practical experience with:
+
+- Advanced Bash scripting
+- Linux automation
+- REST API integration
+- JSON request/response handling
+- Modular software architecture
+- CLI application development
+- AI integration into system tools
+- Error handling and logging
+- Secure command execution
+
+---
+
+# Current Progress
 
 | Module | Status |
 |---------|--------|
-| Interactive Menu | Completed |
-| Modular Project Structure | Completed |
-| Error Analysis Workflow | Completed |
-| Configuration Management | In Progress |
-| Gemini API Integration | In Progress |
-| JSON Request Builder | Pending |
-| AI Response Parsing | Pending |
-| Command Generation | Pending |
-| Logging System | Planned |
-| Report Generation | Planned |
-
----
-
-## Future Enhancements
-
-Planned improvements include:
-
-- Command execution confirmation
-- Conversation history
-- Syntax highlighting
-- Colored terminal output
-- Offline troubleshooting database
-- Multiple AI provider support
-- Plugin architecture
-- Command history
-- Shell auto-completion
-- Better error reporting
+| Interactive Menu | ✅ Completed |
+| Modular Architecture | ✅ Completed |
+| Gemini API Integration | ✅ Completed |
+| Analyze Error | ✅ Completed |
+| Generate Command | ✅ Completed |
+| Automatic Command Execution | ✅ Completed |
+| Automatic AI Error Analysis | ✅ Completed |
+| Dangerous Command Detection | ✅ Completed |
+| Command Execution Logging | ✅ Completed |
+| AI Report Export | ✅ Completed |
+| Configuration Management | ✅ Completed |
+| Colored Terminal UI | 🚧 Planned |
+| Session History | 🚧 Planned |
+| Multiple AI Providers | 🚧 Planned |
+| Unit Testing | 🚧 Planned |
 
 ---
 
