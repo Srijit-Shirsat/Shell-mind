@@ -90,11 +90,26 @@ generate_command(){
 				      if [[ -z "$confirm" ]]; then
 					      echo "You entered nothing"
 				      elif [[ "$confirm" =~ ^[Yy]$ ]]; then
-					      command_output=$(bash -c "$selected_command" 2>&1)
-					      exit_status=$?
+					      stdout_file=$(mktemp)
+					      stderr_file=$(mktemp)
+
+                                              bash -c "$selected_command" >"$stdout_file" 2>"$stderr_file"
+                                              exit_status=$?
+
+					      command_output=$(<"$stdout_file")
+				              error_output=$(<"$stderr_file")
+                                              rm -f "$stdout_file" "$stderr_file"
+
 					      if [[ "$exit_status" -eq 0 ]]; then
-						      echo "Command executed successfully"
+						      echo "Command executed successfully."
+						      if [[ -n "$command_output" ]]; then
+							      echo ""
+							      echo "Output:"
+							      echo "$command_output"
+						      fi
+						      read -p "Press ENTER to continue..."
 						      return
+						   
 					      else
 						      echo "Command failed to execute"
 						      read -p "Do you want Shellmind to analyze this error (y/N)" error_func
@@ -102,7 +117,7 @@ generate_command(){
 							      echo "You entered nothing. Returning back to menu"
 							      return
 						      elif [[ "$error_func" =~ ^[Yy]$ ]]; then
-							      analyze_error $command_output
+							      analyze_error $error_output
 						      else
 							      echo "Returning back to main menu"
 						      fi
@@ -114,7 +129,7 @@ generate_command(){
 				      fi
 				      ;; 
 			      "Generate again")
-				      echo "Generate command"
+				      generate_command
 				      ;;
 			      "Exit")
 				      echo "Exiting....."
