@@ -3,6 +3,7 @@
 source /home/srijit/Shellmind/modules/prompts.sh
 source /home/srijit/Shellmind/modules/ai_client.sh
 source /home/srijit/Shellmind/modules/fix_errors.sh
+source /home/srijit/Shellmind/modules/safety.sh
 
 generate_command(){
         clear	
@@ -90,6 +91,20 @@ generate_command(){
 				      if [[ -z "$confirm" ]]; then
 					      echo "You entered nothing"
 				      elif [[ "$confirm" =~ ^[Yy]$ ]]; then
+					      if dangerous_commands "$selected_command"; then
+						      echo ""
+						      echo "WARNING: Dangerous command detected."
+						      echo
+						      echo "$selected_command"
+						      echo
+						      read -p "Do you still want to execute it? (y/N): " confirm
+
+						      if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
+							      echo "Execution cancelled."
+							      return
+						      fi
+					      fi
+
 					      stdout_file=$(mktemp)
 					      stderr_file=$(mktemp)
 
@@ -130,7 +145,7 @@ generate_command(){
 						   
 					      else
 						      echo "Command failed to execute"
-						      read -p "Do you want Shellmind to analyze this error (y/N)" error_func
+						      read -p "Do you want Shellmind to analyze this error (y/N): " error_func
 						      if [[ -z "$error_func" ]]; then
 							      echo "You entered nothing. Returning back to menu"
 							      return
